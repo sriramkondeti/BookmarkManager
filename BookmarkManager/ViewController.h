@@ -2,7 +2,7 @@
 //  ViewController.h
 //  BookmarkManager
 //
-//  Created by Sri Ram on 24/01/2017.
+//  Created by Sri Ram on 25/01/2017.
 //  Copyright © 2017 Sri Ram. All rights reserved.
 //
 
@@ -10,6 +10,4 @@
 
 @interface ViewController : UIViewController
 
-
 @end
-

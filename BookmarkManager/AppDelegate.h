@@ -17,9 +17,6 @@
 @property (strong,nonatomic)  NSMutableArray *dummyJsonArray;
 @property (nonatomic, assign)  int selectedNote;
 
-
-
-
 - (void)saveContext;
 
 

@@ -26,11 +26,28 @@
     [self.filterView setScrollEnabled:YES];
     [self.filterView setContentSize:CGSizeMake(825,38)];
     delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveData)
-                                                 name:@"didReceiveData"
-                                               object:nil];
+    self.tableview.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+
+
     // Do any additional setup after loading the view.
+}
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    self.tabBarController.navigationItem.hidesBackButton=YES;
+    self.tableview.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:YES];
+    NSManagedObjectContext *managedObjectContext = delegate.persistentContainer.viewContext;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Note"];
+    delegate.dummyJsonArray = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    [self.tableview reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,13 +99,15 @@
     
     if (cell == nil)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] ;
-    NSMutableDictionary *temp =[[NSMutableDictionary alloc]initWithDictionary:[delegate.dummyJsonArray objectAtIndex:indexPath.row]];
-    cell.textLabel.text =[temp objectForKey:@"title"];
+    
+    NSManagedObject *temp = [delegate.dummyJsonArray objectAtIndex:indexPath.row];
 
-    cell.imageView.image = indexPath.row<3?[UIImage imageNamed:[NSString stringWithFormat:@"%d.png",(int)indexPath.row]]: [UIImage imageNamed: @"3.png"];
+    cell.textLabel.text =[temp valueForKey:@"text"];
+    cell.detailTextLabel.text =  [temp valueForKey:@"tags"];
+    cell.imageView.image = [UIImage imageWithData:[temp valueForKey:@"image"]];
     cell.imageView.clipsToBounds = YES;
     cell.imageView.layer.masksToBounds = YES;
-    cell.imageView.layer.cornerRadius = 16;
+    cell.imageView.layer.cornerRadius =  20;
 
     return cell;
 }
@@ -96,6 +115,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     delegate.selectedNote = (int)indexPath.row;
+    [self performSegueWithIdentifier:@"showDetail" sender:self];
+    
+    
+}
+
+- (IBAction)prepareForUnwind:(UIStoryboardSegue *)segue {
     
     
 }
@@ -103,7 +128,7 @@
 - (void)didReceiveData {
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [self.tableview reloadData];
+        //[self.tableview reloadData];
     });
 }
 /*

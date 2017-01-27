@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface addNoteViewController : UIViewController
+@interface addNoteViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate,UITextViewDelegate>
+- (IBAction)saveData:(id)sender;
+- (IBAction)selectType:(UIButton *)sender;
+@property (weak, nonatomic) IBOutlet UILabel *lblPicture;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UIButton *btnAddImage;
+@property (weak, nonatomic) IBOutlet UILabel *lblTitle;
+@property (weak, nonatomic) IBOutlet UITextView *titleText;
+@property (weak, nonatomic) IBOutlet UILabel *lblSelectTags;
+@property (weak, nonatomic) IBOutlet UIScrollView *tagsView;
+@property (weak, nonatomic) IBOutlet UIButton *btnTag;
 
 @end

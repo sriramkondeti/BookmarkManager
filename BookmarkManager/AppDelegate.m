@@ -17,7 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    self.selectedNote = 0;
+    self.selectedNote = -1;
     self.dummyJsonArray = [NSMutableArray array];//Array to Save all the Contacts received from the API.
     NSURLRequest *request = [NSURLRequest
                              requestWithURL:
@@ -41,7 +41,7 @@
                                                object:nil];
                                               
                                           }}];
-    [dataTask resume];
+    //[dataTask resume];
     return YES;
 }
 
